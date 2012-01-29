@@ -24,8 +24,7 @@ informations, one would do:
     authenticator.SignRequest(req);
     string response = ReadResponse(req);
 
-Behind the scene, the authenticator will add an OAuth Autorization header to 
-your request.
+Behind the scene, the authenticator will add an Authorization header to your request.
     
 Limitations
 -----------
