@@ -42,7 +42,7 @@ namespace OAuth.Internal
 
             PlainTextSignature signature = new PlainTextSignature(credentials);
 
-            Assert.AreEqual(SignatureType.PlainText, signature.Type);
+            Assert.AreEqual("PLAINTEXT", signature.Method);
             Assert.AreEqual("3nis2ci4qp4zksz&", signature.Value);
         }
 
@@ -56,7 +56,7 @@ namespace OAuth.Internal
 
             PlainTextSignature signature = new PlainTextSignature(credentials, token);
 
-            Assert.AreEqual(SignatureType.PlainText, signature.Type);
+            Assert.AreEqual("PLAINTEXT", signature.Method);
             Assert.AreEqual("3nis2ci4qp4zksz&4i5cdsnulour8f5", signature.Value);
         }
     }

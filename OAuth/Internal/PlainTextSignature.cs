@@ -26,6 +26,8 @@ namespace OAuth.Internal
 {
     class PlainTextSignature : Signature
     {
+        private const string METHOD_NAME = "PLAINTEXT";
+
         private UrlEncoder encoder = new UrlEncoder();
 
         private ClientCredentials credentials;
@@ -37,11 +39,19 @@ namespace OAuth.Internal
             this.token = token;
         }
 
-        public SignatureType Type
+        public string Method
         {
             get
             {
-                return SignatureType.PlainText;
+                return METHOD_NAME;
+            }
+        }
+
+        public static string MethodName
+        {
+            get
+            {
+                return METHOD_NAME;
             }
         }
 

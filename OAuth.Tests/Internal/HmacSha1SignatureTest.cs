@@ -36,7 +36,7 @@ namespace OAuth.Internal
             
             Signature signature = new HmacSha1Signature(baseString.ToString(), credentials);
 
-            Assert.AreEqual(SignatureType.HmacSha1, signature.Type);
+            Assert.AreEqual("HMAC-SHA1", signature.Method);
             Assert.AreEqual("Qw2B3uOPRWj%2FgzL3jvdwBbkN6zE%3D", signature.Value);
         }
 
@@ -49,7 +49,7 @@ namespace OAuth.Internal
 
             Signature signature = new HmacSha1Signature(baseString, credentials, token);
 
-            Assert.AreEqual(SignatureType.HmacSha1, signature.Type);
+            Assert.AreEqual("HMAC-SHA1", signature.Method);
             Assert.AreEqual("TtSu4YZhB3uuWPwmCetVARH5f7c%3D", signature.Value);
         }
     }
