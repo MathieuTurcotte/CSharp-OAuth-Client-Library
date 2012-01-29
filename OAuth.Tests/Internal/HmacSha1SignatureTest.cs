@@ -28,12 +28,6 @@ namespace OAuth.Internal
     [TestFixture]
     class HmacSha1SignatureTest
     {
-        private const string CLIENT_IDENTIFIER = "kgpr346op32etwe";
-        private const string CLIENT_SHARED_SECRET = "3nis2ci4qp4zksz";
-
-        private const string ACCESS_TOKEN = "kb0funrnoephp7v";
-        private const string ACCESS_TOKEN_SECRET = "4i5cdsnulour8f5";
-
         [Test]
         public void WithoutToken()
         {
