@@ -35,14 +35,11 @@ namespace OAuth.Internal
         private const string ACCESS_TOKEN_SECRET = "4i5cdsnulour8f5";
 
         [Test]
-        public void PostRequest()
+        public void WithoutToken()
         {
-            Nonce nonce = new Nonce(6971488);
-            TimeStamp timestamp = new TimeStamp("1327336019");
-            Uri requestUri = new Uri("http://term.ie/oauth/example/request_token.php");
             ClientCredentials credentials = new ClientCredentials("key", "secret");
-
-            BaseString baseString = new BaseString(requestUri, "POST", nonce, timestamp, credentials, SignatureType.HmacSha1);
+            string baseString = "POST&http%3A%2F%2Fterm.ie%2Foauth%2Fexample%2Frequest_token.php&oauth_consumer_key%3Dkey%26oauth_nonce%3D6971488%26oauth_signature_method%3DHMAC-SHA1%26oauth_timestamp%3D1327336019%26oauth_version%3D1.0";
+            
             Signature signature = new HmacSha1Signature(baseString.ToString(), credentials);
 
             Assert.AreEqual(SignatureType.HmacSha1, signature.Type);
@@ -50,72 +47,16 @@ namespace OAuth.Internal
         }
 
         [Test]
-        public void PostRequestWithToken()
+        public void WithToken()
         {
-            Nonce nonce = new Nonce(6971488);
-            TimeStamp timestamp = new TimeStamp("1327336019");
-            Uri requestUri = new Uri("http://term.ie/oauth/example/access_token.php");
             ClientCredentials credentials = new ClientCredentials("key", "secret");
             NegotiationToken token = new NegotiationToken("requestkey", "requestsecret");
+            string baseString = "POST&http%3A%2F%2Fterm.ie%2Foauth%2Fexample%2Faccess_token.php&oauth_consumer_key%3Dkey%26oauth_nonce%3D6971488%26oauth_signature_method%3DHMAC-SHA1%26oauth_timestamp%3D1327336019%26oauth_token%3Drequestkey%26oauth_version%3D1.0";
 
-            BaseString baseString = new BaseString(requestUri, "POST", nonce, timestamp, credentials, SignatureType.HmacSha1);
-            baseString.Token = token;
-
-            Signature signature = new HmacSha1Signature(baseString.ToString(), credentials, token);
+            Signature signature = new HmacSha1Signature(baseString, credentials, token);
 
             Assert.AreEqual(SignatureType.HmacSha1, signature.Type);
             Assert.AreEqual("TtSu4YZhB3uuWPwmCetVARH5f7c%3D", signature.Value);
-        }
-
-        [Test]
-        public void GetRequestWithToken()
-        {
-            Nonce nonce = new Nonce(4543704);
-            TimeStamp timestamp = new TimeStamp("1327332614");
-            Uri requestUri = new Uri("https://api.dropbox.com/1/metadata/dropbox/");
-            ClientCredentials credentials = new ClientCredentials(CLIENT_IDENTIFIER, CLIENT_SHARED_SECRET);
-            AccessToken token = new AccessToken(ACCESS_TOKEN, ACCESS_TOKEN_SECRET);
-
-            BaseString baseString = new BaseString(requestUri, "GET", nonce, timestamp, credentials, SignatureType.HmacSha1);
-            baseString.Token = token;
-
-            Signature signature = new HmacSha1Signature(baseString.ToString(), credentials, token);
-
-            Assert.AreEqual(SignatureType.HmacSha1, signature.Type);
-            Assert.AreEqual("%2FeYb4E0zH%2Bdpknfst1Bo47kJj2E%3D", signature.Value);
-        }
-
-        [Test]
-        public void GetRequestWithQueryParameters()
-        {
-            Nonce nonce = new Nonce(1327553465);
-            TimeStamp timestamp = new TimeStamp("1327553564");
-            ClientCredentials credentials = new ClientCredentials("abcd", "efgh");
-            Uri requestUri = new Uri("http://host.net/resource?name1=val-1&name2=val 2");
-
-            BaseString baseString = new BaseString(requestUri, "GET", nonce, timestamp, credentials, SignatureType.HmacSha1);
-            Signature signature = new HmacSha1Signature(baseString.ToString(), credentials);
-
-            Assert.AreEqual(SignatureType.HmacSha1, signature.Type);
-            Assert.AreEqual("ubxHzcd2tu9IVPSXeOvVaZrBUkI%3D", signature.Value);
-        }
-
-        [Test]
-        public void GetRequestToTwitterTimeline()
-        {
-            Nonce nonce = new Nonce("140fe91261e58ec809cf15fda4f688bc");
-            TimeStamp timestamp = new TimeStamp("1327615782");
-            Uri requestUri = new Uri("https://api.twitter.com/1/statuses/home_timeline.json?include_entities=true");
-            ClientCredentials credentials = new ClientCredentials("oRKaZOrjadgyFRQjLwucIQ", "hqmosjLp4tn83xb5XVBFfOG3nkPFmJGI4aVDBeHoJHY");
-            AccessToken token = new AccessToken("30460897-EnT52zG9mNCbdeAujfW5QhAlc1NnZXaGGOLymugqP", "Rk695IboW3wekBgrFCe6iOBCpd0qaXQbwnqYcHcopw0");
-
-            BaseString baseString = new BaseString(requestUri, "GET", nonce, timestamp, credentials, SignatureType.HmacSha1);
-            baseString.Token = token;
-
-            Signature signature = new HmacSha1Signature(baseString.ToString(), credentials, token);
-
-            Assert.AreEqual(SignatureType.HmacSha1, signature.Type);
-            Assert.AreEqual("jxyS2MD2I1ReIanOHi1uxGG%2FTZM%3D", signature.Value);
         }
     }
 }
