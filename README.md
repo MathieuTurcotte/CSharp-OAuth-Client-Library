@@ -16,7 +16,7 @@ First of all, you have to instantiate a `RequestAuthenticator`, passing in your
     ClientCredentials credentials = new ClientCredentials(CLIENT_IDENTIFIER, CLIENT_SHARED_SECRET);
     RequestAuthenticator authenticator = RequestAuthenticatorFactory.GetHmacSha1Authenticator(credentials, accessToken);
 	
-Now, to consume protected resources, `WebRequests` need to be signed using the 
+Now, to consume protected resources, `WebRequest` need to be signed using the 
 authenticator that you've just created. For example, to access a Dropbox account
 informations, one would do:
 
@@ -24,6 +24,9 @@ informations, one would do:
     authenticator.SignRequest(req);
     string response = ReadResponse(req);
 
+Behind the scene, the authenticator will add an OAuth Autorization header to 
+your request.
+    
 Limitations
 -----------
 
