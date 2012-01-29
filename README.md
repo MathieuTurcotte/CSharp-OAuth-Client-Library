@@ -1,9 +1,9 @@
 ﻿C# OAuth Client
 ===============
 
-A C# 3.5 library implementing the client side part OAuth 1.0 protocol.
+A C# 3.5 library implementing the client side part OAuth 1.0 protocol (rfc5849).
 
-See the OAuth specs at http://oauth.net/core/1.0/
+See the OAuth specs at http://tools.ietf.org/html/rfc5849
 
 How to use
 ----------
