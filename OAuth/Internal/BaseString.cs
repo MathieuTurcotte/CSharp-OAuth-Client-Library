@@ -22,6 +22,8 @@
 
 using System;
 using System.Collections.Generic;
+using System.Web;
+using System.Collections.Specialized;
 
 namespace OAuth.Internal
 {
@@ -155,58 +157,29 @@ namespace OAuth.Internal
 
         private List<BaseStringParameter> BaseStringParametersFromQueryString()
         {
-            if (HasQueryString())
-            {
-                string[] queryParameters = GetQueryParameters();
-                return ConvertQueryStringParametersToBaseStringParameters(queryParameters);
-            }
-            else
-            {
-                return new List<BaseStringParameter>();
-            }
+            QueryStringParser parser = new QueryStringParser().ParseQueryString(uri.Query);
+            return ConvertQueryStringParametersToBaseStringParameters(parser.ParsedParameters);
         }
 
-        private bool HasQueryString()
-        {
-            return uri.Query != null && uri.Query.Length > 0;
-        }
-
-        private string[] GetQueryParameters()
-        {
-            return uri.Query.TrimStart('?').Split('&');
-        }
-
-        private List<BaseStringParameter> ConvertQueryStringParametersToBaseStringParameters(string[] queryParameters)
+        private List<BaseStringParameter> ConvertQueryStringParametersToBaseStringParameters(NameValueCollection queryParameters)
         {
             List<BaseStringParameter> parameters = new List<BaseStringParameter>();
 
-            foreach (string queryParameter in queryParameters)
+            foreach (string parameterName in queryParameters.AllKeys)
             {
-                if (IsUsableQueryParameter(queryParameter))
+                if (IsUsableQueryParameter(parameterName))
                 {
-                    parameters.Add(ConvertQueryStringParameterToBaseStringParameter(queryParameter));
+                    string parameterValue = queryParameters[parameterName];
+                    parameters.Add(new BaseStringParameter(parameterName, parameterValue));
                 }
             }
 
             return parameters;
         }
 
-        private bool IsUsableQueryParameter(string parameter)
+        private bool IsUsableQueryParameter(string parameterName)
         {
-            return !(string.IsNullOrEmpty(parameter) || parameter.StartsWith(AuthorizationHeaderFields.PREFIX));
-        }
-
-        private BaseStringParameter ConvertQueryStringParameterToBaseStringParameter(string queryParameter)
-        {
-            if (queryParameter.IndexOf('=') != -1)
-            {
-                string[] temp = queryParameter.Split('=');
-                return new BaseStringParameter(temp[0], temp[1]);
-            }
-            else
-            {
-                return new BaseStringParameter(queryParameter, "");
-            }
+            return !(String.IsNullOrEmpty(parameterName) || parameterName.StartsWith(AuthorizationHeaderFields.PREFIX));
         }
     }
 }
