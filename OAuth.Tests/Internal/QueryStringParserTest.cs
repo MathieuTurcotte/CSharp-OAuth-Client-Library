@@ -20,56 +20,46 @@
 // SOFTWARE.
 #endregion
 
-using System.Collections.Specialized;
 using System;
+using NUnit.Framework;
 
 namespace OAuth.Internal
 {
-    class QueryStringParser
+    [TestFixture]
+    class QueryStringParserTest
     {
-        private NameValueCollection parameters = new NameValueCollection();
 
-        public QueryStringParser ParseQueryString(string queryString)
+        QueryStringParser parser;
+
+        [SetUp]
+        public void CreateQueryStringParser()
         {
-            string[] queryParameters = SplitQueryParameters(queryString);
-
-            foreach (string queryParameter in SplitQueryParameters(queryString))
-            {
-                AddQueryParmater(queryParameter);
-            }
-
-            return this;
+            parser = new QueryStringParser();
         }
 
-        public NameValueCollection ParsedParameters 
+        [Test]
+        public void EmptyQueryString()
         {
-            get
-            {
-                return parameters;
-            }
+            parser.ParseQueryString("?   ");
+
+            Assert.That(parser.ParsedParameters.Count, Is.EqualTo(0));
         }
 
-        private string[] SplitQueryParameters(string queryString)
+        [Test]
+        public void NullQueryString()
         {
-            return String.IsNullOrEmpty(queryString) ? 
-                new string[] { } : queryString.Trim().TrimStart('?').Split('&');
+            parser.ParseQueryString(null);
+
+            Assert.That(parser.ParsedParameters.Count, Is.EqualTo(0));
         }
 
-        private void AddQueryParmater(string queryParameter)
+        [Test]
+        public void QueryStringWithEmptyFields()
         {
-            if (!String.IsNullOrEmpty(queryParameter))
-            {
-                string[] split = queryParameter.Split('=');
+            parser.ParseQueryString("foo=&bar");
 
-                if (split.Length > 1)
-                {
-                    parameters.Set(split[0], split[1]);
-                }
-                else
-                {
-                    parameters.Set(split[0], "");
-                }
-            }
+            Assert.That(parser.ParsedParameters["foo"], Is.EqualTo(""));
+            Assert.That(parser.ParsedParameters["bar"], Is.EqualTo(""));
         }
     }
 }

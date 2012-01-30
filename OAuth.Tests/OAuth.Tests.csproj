@@ -57,6 +57,7 @@
     <Compile Include="Internal\AuthorizationHeaderTest.cs" />
     <Compile Include="Helpers\FisherYates.cs" />
     <Compile Include="Internal\BaseStringTest.cs" />
+    <Compile Include="Internal\QueryStringParserTest.cs" />
     <Compile Include="Internal\HmacSha1SignatureTest.cs" />
     <Compile Include="Internal\NonceTest.cs" />
     <Compile Include="Internal\PlainTextSignatureTest.cs" />
