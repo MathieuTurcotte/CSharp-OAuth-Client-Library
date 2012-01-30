@@ -62,7 +62,6 @@
     <Compile Include="AccessToken.cs" />
     <Compile Include="Internal\BaseStringParameter.cs" />
     <Compile Include="Internal\BaseStringParameterComparer.cs" />
-    <Compile Include="Internal\SignatureType.cs" />
     <Compile Include="Internal\TimeStamp.cs" />
     <Compile Include="Token.cs" />
     <Compile Include="Internal\UrlEncoder.cs" />

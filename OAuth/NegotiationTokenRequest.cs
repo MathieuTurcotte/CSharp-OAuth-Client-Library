@@ -54,7 +54,7 @@ namespace OAuth
             TimeStamp timestamp = TimeStamp.Generate();
 
             BaseString baseString = new BaseString(request.RequestUri,
-                request.Method, nonce, timestamp, credentials, SignatureType.HmacSha1);
+                request.Method, nonce, timestamp, credentials, HmacSha1Signature.MethodName);
 
             Signature signature = new HmacSha1Signature(baseString.ToString(), credentials);
 

@@ -34,7 +34,7 @@ namespace OAuth.Internal
         private readonly Nonce nonce;
         private readonly TimeStamp timestamp;
         private readonly ClientCredentials credentials;
-        private readonly SignatureType signatureType;
+        private readonly string signatureType;
         private readonly string version = "1.0";
 
         private Token token;
@@ -43,7 +43,7 @@ namespace OAuth.Internal
 
         private UrlEncoder encoder = new UrlEncoder();
 
-        public BaseString(Uri uri, string httpMethod, Nonce nonce, TimeStamp timestamp, ClientCredentials credentials, SignatureType type)
+        public BaseString(Uri uri, string httpMethod, Nonce nonce, TimeStamp timestamp, ClientCredentials credentials, string type)
         {
             this.uri = uri;
             this.httpMethod = httpMethod;
@@ -150,7 +150,7 @@ namespace OAuth.Internal
 
         private BaseStringParameter SignatureMethodParameter()
         {
-            return new BaseStringParameter(AuthorizationHeaderFields.SIGNATURE_METHOD, signatureType.Name());
+            return new BaseStringParameter(AuthorizationHeaderFields.SIGNATURE_METHOD, signatureType);
         }
 
         private List<BaseStringParameter> BaseStringParametersFromQueryString()

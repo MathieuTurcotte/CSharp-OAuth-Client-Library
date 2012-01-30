@@ -56,7 +56,7 @@ namespace OAuth.Internal
             builder.Append(GetHeaderField(AuthorizationHeaderFields.REALM, "")).Append(',');
             builder.Append(GetHeaderField(AuthorizationHeaderFields.VERSION, version)).Append(',');
             builder.Append(GetHeaderField(AuthorizationHeaderFields.CONSUMER_KEY, credentials.Identifier)).Append(',');
-            builder.Append(GetHeaderField(AuthorizationHeaderFields.SIGNATURE_METHOD, signature.Type.Name())).Append(',');
+            builder.Append(GetHeaderField(AuthorizationHeaderFields.SIGNATURE_METHOD, signature.Method)).Append(',');
 
             if (token != null)
             {

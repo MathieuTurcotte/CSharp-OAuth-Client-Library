@@ -39,7 +39,7 @@ namespace OAuth.Authenticator
         protected override Signature GenerateSignature(WebRequest request, Nonce nonce, TimeStamp timestamp)
         {
             BaseString baseString = new BaseString(request.RequestUri,
-                request.Method, nonce, timestamp, credentials, SignatureType.HmacSha1);
+                request.Method, nonce, timestamp, credentials, HmacSha1Signature.MethodName);
             baseString.Token = token;
             return new HmacSha1Signature(baseString.ToString(), credentials, token);
         }

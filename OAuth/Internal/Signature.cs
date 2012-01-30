@@ -24,7 +24,7 @@ namespace OAuth.Internal
 {
     internal interface Signature
     {
-        SignatureType Type { get; }
+        string Method { get; }
         string Value { get; }
     }
 }

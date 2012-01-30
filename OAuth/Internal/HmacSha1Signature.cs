@@ -28,6 +28,8 @@ namespace OAuth.Internal
 {
     class HmacSha1Signature : Signature
     {
+        private const string METHOD_NAME = "HMAC-SHA1";
+
         private UrlEncoder encoder = new UrlEncoder();
 
         private string baseString;
@@ -41,11 +43,19 @@ namespace OAuth.Internal
             this.token = token;
         }
 
-        public SignatureType Type
+        public string Method
         {
             get
             {
-                return SignatureType.HmacSha1;
+                return METHOD_NAME;
+            }
+        }
+
+        public static string MethodName
+        {
+            get
+            {
+                return METHOD_NAME;
             }
         }
 
