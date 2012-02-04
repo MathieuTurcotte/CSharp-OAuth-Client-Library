@@ -20,24 +20,21 @@
 // SOFTWARE.
 #endregion
 
-using System.Net;
-using OAuth.Base;
-
-namespace OAuth.Authenticator
+namespace OAuth.Base
 {
-    internal class HmacSha1RequestAuthenticator : OAuthRequestAuthenticator
+    internal class AuthorizationHeaderFields
     {
-        public HmacSha1RequestAuthenticator(ClientCredentials credentials, AccessToken token) :
-            base(credentials, token)
-        {
-        }
-
-        protected override Signature GenerateSignature(WebRequest request, Nonce nonce, TimeStamp timestamp)
-        {
-            BaseString baseString = new BaseString(request.RequestUri, request.Method,
-                nonce, timestamp, credentials, HmacSha1Signature.MethodName);
-            baseString.Token = token;
-            return new HmacSha1Signature(baseString.ToString(), credentials, token);
-        }
+        public const string PREFIX = "oauth_";
+        public const string REALM = "realm";
+        public const string CONSUMER_KEY = "oauth_consumer_key";
+        public const string CALLBACK = "oauth_callback";
+        public const string VERSION = "oauth_version";
+        public const string SIGNATURE_METHOD = "oauth_signature_method";
+        public const string SIGNATURE = "oauth_signature";
+        public const string TIMESTAMP = "oauth_timestamp";
+        public const string NONCE = "oauth_nonce";
+        public const string TOKEN = "oauth_token";
+        public const string TOKEN_SECRET = "oauth_token_secret";
+        public const string VERIFIER = "oauth_verifier";
     }
 }

@@ -25,7 +25,7 @@ using System.Collections.Specialized;
 using System.IO;
 using System.Net;
 using System.Web;
-using OAuth.Internal;
+using OAuth.Base;
 
 namespace OAuth
 {

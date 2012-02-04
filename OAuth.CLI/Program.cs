@@ -23,6 +23,7 @@
 using System;
 using System.IO;
 using System.Net;
+using OAuth.Base;
 
 namespace OAuth.CLI
 {

@@ -20,24 +20,28 @@
 // SOFTWARE.
 #endregion
 
-using System.Net;
-using OAuth.Base;
+using NUnit.Framework;
 
-namespace OAuth.Authenticator
+namespace OAuth.Base
 {
-    internal class HmacSha1RequestAuthenticator : OAuthRequestAuthenticator
+    [TestFixture]
+    class NonceTest
     {
-        public HmacSha1RequestAuthenticator(ClientCredentials credentials, AccessToken token) :
-            base(credentials, token)
+        [Test]
+        public void NonceMustBeUniqueAccrossAllRequest()
         {
-        }
+            Nonce nonce1 = Nonce.Generate();
+            Nonce nonce2 = Nonce.Generate();
+            Nonce nonce3 = Nonce.Generate();
 
-        protected override Signature GenerateSignature(WebRequest request, Nonce nonce, TimeStamp timestamp)
-        {
-            BaseString baseString = new BaseString(request.RequestUri, request.Method,
-                nonce, timestamp, credentials, HmacSha1Signature.MethodName);
-            baseString.Token = token;
-            return new HmacSha1Signature(baseString.ToString(), credentials, token);
+            Assert.AreNotEqual(nonce1, nonce2);
+            Assert.AreNotEqual(nonce1, nonce3);
+
+            Assert.AreNotEqual(nonce2, nonce1);
+            Assert.AreNotEqual(nonce2, nonce3);
+
+            Assert.AreNotEqual(nonce3, nonce1);
+            Assert.AreNotEqual(nonce3, nonce2);
         }
     }
 }

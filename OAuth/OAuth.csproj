@@ -48,33 +48,34 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Authenticator\RsaSha1RequestAuthenticator.cs" />
-    <Compile Include="Internal\RsaSha1Signature.cs" />
-    <Compile Include="Internal\QueryStringParser.cs" />
-    <Compile Include="RequestAuthenticator.cs" />
-    <Compile Include="RequestAuthenticatorFactory.cs" />
+    <Compile Include="Base\RsaSha1Signature.cs" />
+    <Compile Include="Utils\QueryStringParser.cs" />
+    <Compile Include="Authenticator\RequestAuthenticator.cs" />
+    <Compile Include="Authenticator\RequestAuthenticatorFactory.cs" />
     <Compile Include="Authenticator\HmacSha1RequestAuthenticator.cs" />
-    <Compile Include="Internal\AuthorizationHeader.cs" />
-    <Compile Include="Internal\BaseString.cs" />
-    <Compile Include="Internal\Nonce.cs" />
-    <Compile Include="Internal\AuthorizationHeaderFields.cs" />
+    <Compile Include="Base\AuthorizationHeader.cs" />
+    <Compile Include="Base\BaseString.cs" />
+    <Compile Include="Base\Nonce.cs" />
+    <Compile Include="Base\AuthorizationHeaderFields.cs" />
     <Compile Include="Authenticator\OAuthRequestAuthenticator.cs" />
     <Compile Include="Authenticator\PlainTextRequestAuthenticator.cs" />
-    <Compile Include="Internal\PlainTextSignature.cs" />
-    <Compile Include="Internal\Signature.cs" />
-    <Compile Include="Internal\HmacSha1Signature.cs" />
-    <Compile Include="AccessToken.cs" />
-    <Compile Include="Internal\BaseStringParameter.cs" />
-    <Compile Include="Internal\BaseStringParameterComparer.cs" />
-    <Compile Include="Internal\TimeStamp.cs" />
-    <Compile Include="Token.cs" />
-    <Compile Include="Internal\UrlEncoder.cs" />
-    <Compile Include="NegotiationToken.cs" />
+    <Compile Include="Base\PlainTextSignature.cs" />
+    <Compile Include="Base\Signature.cs" />
+    <Compile Include="Base\HmacSha1Signature.cs" />
+    <Compile Include="Base\AccessToken.cs" />
+    <Compile Include="Base\BaseStringParameter.cs" />
+    <Compile Include="Base\BaseStringParameterComparer.cs" />
+    <Compile Include="Base\TimeStamp.cs" />
+    <Compile Include="Base\Token.cs" />
+    <Compile Include="Utils\UrlEncoder.cs" />
+    <Compile Include="Base\NegotiationToken.cs" />
     <Compile Include="AccessTokenRequest.cs" />
-    <Compile Include="ClientCredentials.cs" />
+    <Compile Include="Base\ClientCredentials.cs" />
     <Compile Include="AuthorizationUri.cs" />
     <Compile Include="NegotiationTokenRequest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

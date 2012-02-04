@@ -20,24 +20,49 @@
 // SOFTWARE.
 #endregion
 
-using System.Net;
-using OAuth.Base;
+using System;
+using System.Security.Cryptography;
 
-namespace OAuth.Authenticator
+namespace OAuth.Base
 {
-    internal class HmacSha1RequestAuthenticator : OAuthRequestAuthenticator
+    internal class Nonce
     {
-        public HmacSha1RequestAuthenticator(ClientCredentials credentials, AccessToken token) :
-            base(credentials, token)
+        private string value;
+
+        public Nonce(int value)
         {
+            this.value = Convert.ToString(value);
         }
 
-        protected override Signature GenerateSignature(WebRequest request, Nonce nonce, TimeStamp timestamp)
+        public Nonce(String value)
         {
-            BaseString baseString = new BaseString(request.RequestUri, request.Method,
-                nonce, timestamp, credentials, HmacSha1Signature.MethodName);
-            baseString.Token = token;
-            return new HmacSha1Signature(baseString.ToString(), credentials, token);
+            this.value = value;
+        }
+
+        public static Nonce Generate()
+        {
+            byte[] b = new byte[4];
+            new RNGCryptoServiceProvider().GetBytes(b);
+            int seed = (b[0] & 0x7f) << 24 | b[1] << 16 | b[2] << 8 | b[3];
+
+            Random random = new Random(seed);
+            return new Nonce(random.Next(123400, 9999999));
+        }
+
+        public override bool Equals(Object obj)
+        {
+            Nonce other = obj as Nonce;
+            return other != null && value == other.value;
+        }
+
+        public override int GetHashCode()
+        {
+            return value.GetHashCode();
+        }
+
+        public override string ToString()
+        {
+            return value;
         }
     }
 }

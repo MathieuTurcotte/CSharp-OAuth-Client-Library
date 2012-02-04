@@ -22,8 +22,10 @@
 
 using System;
 using System.Net;
-using NUnit.Framework;
 using System.Security.Cryptography;
+using NUnit.Framework;
+using OAuth.Authenticator;
+using OAuth.Base;
 
 namespace OAuth.IntegrationTests
 {

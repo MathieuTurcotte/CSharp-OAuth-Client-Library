@@ -20,42 +20,48 @@
 // SOFTWARE.
 #endregion
 
-using System;
-using OAuth.Base;
+using NUnit.Framework;
 
-namespace OAuth
+namespace OAuth.Utils
 {
-    public class AuthorizationUri
+    [TestFixture]
+    class UrlEncoderTest
     {
-        public static Uri Create(string authorize, NegotiationToken negotiationToken)
+        private const string UNRESERVED_ALPHA = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_.~";
+        private const string UNRESERVED_DIGITS = "0123456789";
+        private const string UNRESERVED_SYMBOLS = "-_.~";
+
+        private UrlEncoder encoder;
+
+        [SetUp]
+        public void CreateNewUrlEncoder()
         {
-            return Create(new Uri(authorize), negotiationToken);
+            encoder = new UrlEncoder();
         }
 
-        public static Uri Create(Uri authorize, NegotiationToken negotiationToken)
+        [Test]
+        public void EncodedCharactersMustBeUppercase()
         {
-            UriBuilder builder = new UriBuilder(authorize);
-
-            if (QueryStringContainsParameters(builder.Query))
-            {
-                builder.Query = builder.Query.Substring(1) + "&" + OAuthTokenParameter(negotiationToken);
-            }
-            else
-            {
-                builder.Query = OAuthTokenParameter(negotiationToken);
-            }
-
-            return builder.Uri;
+            Assert.That(encoder.Encode(" "), Is.EqualTo("%20"));
+            Assert.That(encoder.Encode(" %"), Is.EqualTo("%20%25"));
         }
 
-        private static bool QueryStringContainsParameters(string queryString)
+        [Test]
+        public void UnreservedAlphaCharactersAsPerRfc3986Section23MustNotBeEncoded()
         {
-            return queryString != null && queryString.Length > 1;
+            Assert.That(encoder.Encode(UNRESERVED_ALPHA), Is.EqualTo(UNRESERVED_ALPHA));
         }
 
-        private static string OAuthTokenParameter(NegotiationToken negotiationToken)
+        [Test]
+        public void UnreservedDigitsAsPerRfc3986Section23MustNotBeEncoded()
         {
-            return AuthorizationHeaderFields.TOKEN + "=" + negotiationToken.Value;
+            Assert.That(encoder.Encode(UNRESERVED_DIGITS), Is.EqualTo(UNRESERVED_DIGITS));
+        }
+
+        [Test]
+        public void UnreservedSymbolsAsPerRfc3986Section23MustNotBeEncoded()
+        {
+            Assert.That(encoder.Encode(UNRESERVED_SYMBOLS), Is.EqualTo(UNRESERVED_SYMBOLS));
         }
     }
 }

@@ -20,24 +20,46 @@
 // SOFTWARE.
 #endregion
 
-using System.Net;
-using OAuth.Base;
+using System;
+using NUnit.Framework;
 
-namespace OAuth.Authenticator
+namespace OAuth.Utils
 {
-    internal class HmacSha1RequestAuthenticator : OAuthRequestAuthenticator
+    [TestFixture]
+    class QueryStringParserTest
     {
-        public HmacSha1RequestAuthenticator(ClientCredentials credentials, AccessToken token) :
-            base(credentials, token)
+
+        QueryStringParser parser;
+
+        [SetUp]
+        public void CreateQueryStringParser()
         {
+            parser = new QueryStringParser();
         }
 
-        protected override Signature GenerateSignature(WebRequest request, Nonce nonce, TimeStamp timestamp)
+        [Test]
+        public void EmptyQueryString()
         {
-            BaseString baseString = new BaseString(request.RequestUri, request.Method,
-                nonce, timestamp, credentials, HmacSha1Signature.MethodName);
-            baseString.Token = token;
-            return new HmacSha1Signature(baseString.ToString(), credentials, token);
+            parser.ParseQueryString("?   ");
+
+            Assert.That(parser.ParsedParameters.Count, Is.EqualTo(0));
+        }
+
+        [Test]
+        public void NullQueryString()
+        {
+            parser.ParseQueryString(null);
+
+            Assert.That(parser.ParsedParameters.Count, Is.EqualTo(0));
+        }
+
+        [Test]
+        public void QueryStringWithEmptyFields()
+        {
+            parser.ParseQueryString("foo=&bar");
+
+            Assert.That(parser.ParsedParameters["foo"], Is.EqualTo(""));
+            Assert.That(parser.ParsedParameters["bar"], Is.EqualTo(""));
         }
     }
 }

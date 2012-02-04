@@ -20,35 +20,42 @@
 // SOFTWARE.
 #endregion
 
-using System;
 using NUnit.Framework;
-using OAuth.Base;
 
-namespace OAuth
+namespace OAuth.Base
 {
     [TestFixture]
-    class AuthorizationUriTest
+    class SignatureParameterTest
     {
-        private const string AUTHORIZE_END_POINT_WITHOUT_QUERYPARAM = "https://www.dropbox.com/1/oauth/authorize";
-        private const string AUTHORIZE_END_POINT_WITH_QUERYPARAM = "https://www.dropbox.com/1/oauth/authorize?foo=bar";
+        const string NAME = "name";
+        const string VALUE = "value";
 
-        private const string OAUTH_TOKEN = "OAUTH_TOKEN";
-        private const string OAUTH_TOKEN_SECRET = "OAUTH_TOKEN_SECRET";
+        const string ENCODED_NAME = "encoded_name";
+        const string ENCODED_VALUE = "encoded_value";
 
-        private NegotiationToken token = new NegotiationToken(OAUTH_TOKEN, OAUTH_TOKEN_SECRET);
+        const string NAME_VALUE_PAIR = NAME + "=" + VALUE;
 
         [Test]
-        public void AuthorizationUriBuiltFromUriWithoutQueryParametersShouldContainTheOAuthTokenAsSoleQueryParameter()
+        public void SignatureParameterWithSameNameAndValueShouldBeEqual()
         {
-            Uri authorizationRequestUri = AuthorizationUri.Create(AUTHORIZE_END_POINT_WITHOUT_QUERYPARAM, token);
-            Assert.AreEqual(authorizationRequestUri.Query, "?oauth_token=" + token.Value);
+            BaseStringParameter parameter1 = new BaseStringParameter(NAME, VALUE);
+            BaseStringParameter parameter2 = new BaseStringParameter(NAME, VALUE);
+
+            BaseStringParameter parameter3 = new BaseStringParameter(NAME, "abc");
+            BaseStringParameter parameter4 = new BaseStringParameter("abc", VALUE);
+
+            Assert.That(parameter1, Is.EqualTo(parameter2));
+            Assert.That(parameter2, Is.EqualTo(parameter1));
+
+            Assert.That(parameter1, Is.Not.EqualTo(parameter3));
+            Assert.That(parameter1, Is.Not.EqualTo(parameter4));
         }
 
         [Test]
-        public void AuthorizationUriBuiltFromUriWithQueryParametersShouldPreserveAllQueryParameters()
+        public void StringRepresentationShouldBeTheConcatenationOfNameAndValueUsingAnEqualsSign()
         {
-            Uri authorizationRequestUri = AuthorizationUri.Create(AUTHORIZE_END_POINT_WITH_QUERYPARAM, token);
-            Assert.AreEqual(authorizationRequestUri.Query, "?foo=bar&oauth_token=" + token.Value);
+            BaseStringParameter parameter = new BaseStringParameter(NAME, VALUE);
+            Assert.That(parameter.ToString(), Is.EqualTo(NAME_VALUE_PAIR));
         }
     }
 }

@@ -54,17 +54,17 @@
   <ItemGroup>
     <Compile Include="Authenticator\RequestAuthenticatorTest.cs" />
     <Compile Include="AuthorizationUriTest.cs" />
-    <Compile Include="Internal\AuthorizationHeaderTest.cs" />
+    <Compile Include="Base\AuthorizationHeaderTest.cs" />
     <Compile Include="Helpers\FisherYates.cs" />
-    <Compile Include="Internal\BaseStringTest.cs" />
-    <Compile Include="Internal\QueryStringParserTest.cs" />
-    <Compile Include="Internal\HmacSha1SignatureTest.cs" />
-    <Compile Include="Internal\NonceTest.cs" />
-    <Compile Include="Internal\PlainTextSignatureTest.cs" />
+    <Compile Include="Base\BaseStringTest.cs" />
+    <Compile Include="Utils\QueryStringParserTest.cs" />
+    <Compile Include="Base\HmacSha1SignatureTest.cs" />
+    <Compile Include="Base\NonceTest.cs" />
+    <Compile Include="Base\PlainTextSignatureTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Internal\BaseStringParameterTest.cs" />
-    <Compile Include="Internal\BaseStringParameterComparerTest.cs" />
-    <Compile Include="Internal\UrlEncoderTest.cs" />
+    <Compile Include="Base\BaseStringParameterTest.cs" />
+    <Compile Include="Base\BaseStringParameterComparerTest.cs" />
+    <Compile Include="Utils\UrlEncoderTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\OAuth\OAuth.csproj">

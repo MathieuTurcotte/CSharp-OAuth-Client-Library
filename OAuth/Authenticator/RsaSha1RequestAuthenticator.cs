@@ -20,13 +20,9 @@
 // SOFTWARE.
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Net;
-using OAuth.Internal;
 using System.Security.Cryptography;
+using OAuth.Base;
 
 namespace OAuth.Authenticator
 {

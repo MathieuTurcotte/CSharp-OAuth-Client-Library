@@ -20,24 +20,28 @@
 // SOFTWARE.
 #endregion
 
-using System.Net;
-using OAuth.Base;
+using System;
 
-namespace OAuth.Authenticator
+namespace OAuth.Base
 {
-    internal class HmacSha1RequestAuthenticator : OAuthRequestAuthenticator
+    internal class TimeStamp
     {
-        public HmacSha1RequestAuthenticator(ClientCredentials credentials, AccessToken token) :
-            base(credentials, token)
+        private string value;
+
+        public TimeStamp(string value)
         {
+            this.value = value;
         }
 
-        protected override Signature GenerateSignature(WebRequest request, Nonce nonce, TimeStamp timestamp)
+        public static TimeStamp Generate()
         {
-            BaseString baseString = new BaseString(request.RequestUri, request.Method,
-                nonce, timestamp, credentials, HmacSha1Signature.MethodName);
-            baseString.Token = token;
-            return new HmacSha1Signature(baseString.ToString(), credentials, token);
+            TimeSpan timeSpan = DateTime.UtcNow - new DateTime(1970, 1, 1, 0, 0, 0, 0);
+            return new TimeStamp(Convert.ToInt64(timeSpan.TotalSeconds).ToString());
+        }
+
+        public override string ToString()
+        {
+            return value;
         }
     }
 }

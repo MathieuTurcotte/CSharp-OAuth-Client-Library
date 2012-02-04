@@ -20,24 +20,15 @@
 // SOFTWARE.
 #endregion
 
-using System.Net;
-using OAuth.Base;
+using System.Collections.Generic;
 
-namespace OAuth.Authenticator
+namespace OAuth.Base
 {
-    internal class HmacSha1RequestAuthenticator : OAuthRequestAuthenticator
+    internal class BaseStringParameterComparer : IComparer<BaseStringParameter>
     {
-        public HmacSha1RequestAuthenticator(ClientCredentials credentials, AccessToken token) :
-            base(credentials, token)
+        public int Compare(BaseStringParameter a, BaseStringParameter b)
         {
-        }
-
-        protected override Signature GenerateSignature(WebRequest request, Nonce nonce, TimeStamp timestamp)
-        {
-            BaseString baseString = new BaseString(request.RequestUri, request.Method,
-                nonce, timestamp, credentials, HmacSha1Signature.MethodName);
-            baseString.Token = token;
-            return new HmacSha1Signature(baseString.ToString(), credentials, token);
+            return string.Compare(a.ToString(), b.ToString());
         }
     }
 }

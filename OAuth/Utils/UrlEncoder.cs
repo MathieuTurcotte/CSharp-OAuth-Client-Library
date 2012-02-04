@@ -20,24 +20,37 @@
 // SOFTWARE.
 #endregion
 
-using System.Net;
-using OAuth.Base;
+using System;
+using System.Text;
 
-namespace OAuth.Authenticator
+namespace OAuth.Utils
 {
-    internal class HmacSha1RequestAuthenticator : OAuthRequestAuthenticator
+    internal class UrlEncoder
     {
-        public HmacSha1RequestAuthenticator(ClientCredentials credentials, AccessToken token) :
-            base(credentials, token)
+        private const string UNRESERVED_CHARS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_.~";
+
+        public virtual string Encode(string content)
         {
+            StringBuilder builder = new StringBuilder();
+
+            foreach (char c in content)
+            {
+                Encode(c, builder);
+            }
+
+            return builder.ToString();
         }
 
-        protected override Signature GenerateSignature(WebRequest request, Nonce nonce, TimeStamp timestamp)
+        private void Encode(char c, StringBuilder builder)
         {
-            BaseString baseString = new BaseString(request.RequestUri, request.Method,
-                nonce, timestamp, credentials, HmacSha1Signature.MethodName);
-            baseString.Token = token;
-            return new HmacSha1Signature(baseString.ToString(), credentials, token);
+            if (UNRESERVED_CHARS.IndexOf(c) != -1)
+            {
+                builder.Append(c);
+            }
+            else
+            {
+                builder.Append(String.Format("%{0:X2}", (int)c));
+            }
         }
     }
 }

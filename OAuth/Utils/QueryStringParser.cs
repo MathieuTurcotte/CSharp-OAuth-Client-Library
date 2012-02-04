@@ -20,42 +20,56 @@
 // SOFTWARE.
 #endregion
 
+using System.Collections.Specialized;
 using System;
-using OAuth.Base;
 
-namespace OAuth
+namespace OAuth.Utils
 {
-    public class AuthorizationUri
+    class QueryStringParser
     {
-        public static Uri Create(string authorize, NegotiationToken negotiationToken)
-        {
-            return Create(new Uri(authorize), negotiationToken);
-        }
+        private NameValueCollection parameters = new NameValueCollection();
 
-        public static Uri Create(Uri authorize, NegotiationToken negotiationToken)
+        public QueryStringParser ParseQueryString(string queryString)
         {
-            UriBuilder builder = new UriBuilder(authorize);
+            string[] queryParameters = SplitQueryParameters(queryString);
 
-            if (QueryStringContainsParameters(builder.Query))
+            foreach (string queryParameter in SplitQueryParameters(queryString))
             {
-                builder.Query = builder.Query.Substring(1) + "&" + OAuthTokenParameter(negotiationToken);
-            }
-            else
-            {
-                builder.Query = OAuthTokenParameter(negotiationToken);
+                AddQueryParmater(queryParameter);
             }
 
-            return builder.Uri;
+            return this;
         }
 
-        private static bool QueryStringContainsParameters(string queryString)
+        public NameValueCollection ParsedParameters 
         {
-            return queryString != null && queryString.Length > 1;
+            get
+            {
+                return parameters;
+            }
         }
 
-        private static string OAuthTokenParameter(NegotiationToken negotiationToken)
+        private string[] SplitQueryParameters(string queryString)
         {
-            return AuthorizationHeaderFields.TOKEN + "=" + negotiationToken.Value;
+            return String.IsNullOrEmpty(queryString) ? 
+                new string[] { } : queryString.Trim().TrimStart('?').Split('&');
+        }
+
+        private void AddQueryParmater(string queryParameter)
+        {
+            if (!String.IsNullOrEmpty(queryParameter))
+            {
+                string[] split = queryParameter.Split('=');
+
+                if (split.Length > 1)
+                {
+                    parameters.Set(split[0], split[1]);
+                }
+                else
+                {
+                    parameters.Set(split[0], "");
+                }
+            }
         }
     }
 }

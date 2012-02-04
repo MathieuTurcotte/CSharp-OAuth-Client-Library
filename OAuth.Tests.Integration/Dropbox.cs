@@ -23,6 +23,8 @@
 using System;
 using System.Net;
 using NUnit.Framework;
+using OAuth.Authenticator;
+using OAuth.Base;
 
 namespace OAuth.IntegrationTests
 {

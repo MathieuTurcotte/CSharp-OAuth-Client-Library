@@ -20,14 +20,12 @@
 // SOFTWARE.
 #endregion
 
-using System.Net;
 using NUnit.Framework;
-using OAuth.Base;
 
-namespace OAuth.Authenticator
+namespace OAuth.Base
 {
     [TestFixture]
-    class RequestAuthenticatorTest
+    class PlainTextSignatureTest
     {
         private const string CLIENT_IDENTIFIER = "kgpr346op32etwe";
         private const string CLIENT_SHARED_SECRET = "3nis2ci4qp4zksz";
@@ -35,41 +33,31 @@ namespace OAuth.Authenticator
         private const string ACCESS_TOKEN = "kb0funrnoephp7v";
         private const string ACCESS_TOKEN_SECRET = "4i5cdsnulour8f5";
 
-        private ClientCredentials credentials = new ClientCredentials(CLIENT_IDENTIFIER, CLIENT_SHARED_SECRET);
-        private AccessToken accessToken = new AccessToken(ACCESS_TOKEN, ACCESS_TOKEN_SECRET);
-
-        private WebRequest request;
-
-        [SetUp]
-        public void CreateWebRequest()
+        [Test]
+        public void WithoutToken()
         {
-            request = WebRequest.Create("http://foo.com/");
+            Nonce nonce = new Nonce(4543704);
+            TimeStamp timestamp = new TimeStamp("1327332614");
+            ClientCredentials credentials = new ClientCredentials(CLIENT_IDENTIFIER, CLIENT_SHARED_SECRET);
+
+            PlainTextSignature signature = new PlainTextSignature(credentials);
+
+            Assert.AreEqual("PLAINTEXT", signature.Method);
+            Assert.AreEqual("3nis2ci4qp4zksz&", signature.Value);
         }
 
         [Test]
-        public void HmacSha1RequestAuthenticatorShouldAddAnAuthorizationHeader()
+        public void WithToken()
         {
-            OAuthRequestAuthenticator authenticator = new HmacSha1RequestAuthenticator(credentials, accessToken);
+            Nonce nonce = new Nonce(4543704);
+            TimeStamp timestamp = new TimeStamp("1327332614");
+            ClientCredentials credentials = new ClientCredentials(CLIENT_IDENTIFIER, CLIENT_SHARED_SECRET);
+            AccessToken token = new AccessToken(ACCESS_TOKEN, ACCESS_TOKEN_SECRET); ;
 
-            authenticator.SignRequest(request);
+            PlainTextSignature signature = new PlainTextSignature(credentials, token);
 
-            string header = request.Headers.Get("Authorization");
-
-            Assert.That(header, Is.StringStarting("OAuth"));
-            Assert.That(header, Contains.Substring("HMAC-SHA1"));
-        }
-
-        [Test]
-        public void PlainTextRequestAuthenticatorShouldAddAnAuthorizationHeader()
-        {
-            OAuthRequestAuthenticator authenticator = new PlainTextRequestAuthenticator(credentials, accessToken);
-
-            authenticator.SignRequest(request);
-
-            string header = request.Headers.Get("Authorization");
-
-            Assert.That(header, Is.StringStarting("OAuth"));
-            Assert.That(header, Contains.Substring("PLAINTEXT"));
+            Assert.AreEqual("PLAINTEXT", signature.Method);
+            Assert.AreEqual("3nis2ci4qp4zksz&4i5cdsnulour8f5", signature.Value);
         }
     }
 }

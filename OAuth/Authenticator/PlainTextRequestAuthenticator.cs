@@ -21,7 +21,7 @@
 #endregion
 
 using System.Net;
-using OAuth.Internal;
+using OAuth.Base;
 
 namespace OAuth.Authenticator
 {

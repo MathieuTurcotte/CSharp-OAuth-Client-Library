@@ -1,4 +1,4 @@
-﻿#region Copyright
+#region Copyright
 // Copyright (C) 2012 Mathieu Turcotte
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy of
@@ -21,41 +21,61 @@
 #endregion
 
 using System;
-using OAuth.Base;
+using System.Security.Cryptography;
+using System.Text;
 
-namespace OAuth
+namespace OAuth.Base
 {
-    public class AuthorizationUri
+    class RsaSha1Signature : Signature
     {
-        public static Uri Create(string authorize, NegotiationToken negotiationToken)
+        private const string METHOD_NAME = "RSA-SHA1";
+
+        private string baseString;
+        private RSAParameters key;
+
+        public RsaSha1Signature(string baseString, RSAParameters key)
         {
-            return Create(new Uri(authorize), negotiationToken);
+            this.baseString = baseString;
+            this.key = key;
         }
 
-        public static Uri Create(Uri authorize, NegotiationToken negotiationToken)
+        public string Method
         {
-            UriBuilder builder = new UriBuilder(authorize);
-
-            if (QueryStringContainsParameters(builder.Query))
+            get
             {
-                builder.Query = builder.Query.Substring(1) + "&" + OAuthTokenParameter(negotiationToken);
+                return METHOD_NAME;
             }
-            else
+        }
+
+        public static string MethodName
+        {
+            get
             {
-                builder.Query = OAuthTokenParameter(negotiationToken);
+                return METHOD_NAME;
             }
-
-            return builder.Uri;
         }
 
-        private static bool QueryStringContainsParameters(string queryString)
+        public string Value
         {
-            return queryString != null && queryString.Length > 1;
+            get
+            {
+                byte[] hash = HashBaseString();
+                byte[] encrypted = EncryptHash(hash);
+                return Convert.ToBase64String(encrypted);
+            }
         }
 
-        private static string OAuthTokenParameter(NegotiationToken negotiationToken)
+        private byte[] EncryptHash(byte[] hash)
         {
-            return AuthorizationHeaderFields.TOKEN + "=" + negotiationToken.Value;
+            RSACryptoServiceProvider rsa = new RSACryptoServiceProvider();
+            rsa.ImportParameters(key);
+            return rsa.Encrypt(hash, true);
+        }
+
+        private byte[] HashBaseString()
+        {
+            SHA1 hasher = SHA1.Create();
+            return hasher.ComputeHash(Encoding.ASCII.GetBytes(baseString));
         }
     }
 }
