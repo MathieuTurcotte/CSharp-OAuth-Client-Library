@@ -25,11 +25,10 @@ informations, one would do:
     string response = ReadResponse(req);
 
 Behind the scene, the authenticator will add an Authorization header to your request.
-    
+
 Limitations
 -----------
 
-* Doesn't support `RSA-SHA1` signatures.
 * Doesn't support `POST` requests with url encoded body.
 
 Tests
@@ -40,7 +39,7 @@ Tests
   Integration tests perform requests to differents OAuth provider, ensuring 
   a minimal level of interoperability.
 
-[NUnit](http://www.nunit.org/) is required to run all tests.
+[NUnit](http://www.nunit.org/) is required to run the both test suite.
   
 License
 -------

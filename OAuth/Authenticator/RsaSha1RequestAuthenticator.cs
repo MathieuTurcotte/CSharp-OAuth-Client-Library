@@ -20,26 +20,33 @@
 // SOFTWARE.
 #endregion
 
-using OAuth.Authenticator;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Net;
+using OAuth.Internal;
 using System.Security.Cryptography;
 
-namespace OAuth
+namespace OAuth.Authenticator
 {
-    public class RequestAuthenticatorFactory
+    internal class RsaSha1RequestAuthenticator : OAuthRequestAuthenticator
     {
-        public static RequestAuthenticator GetPlainTextAuthenticator(ClientCredentials credentials, AccessToken token)
+        RSAParameters key;
+
+        public RsaSha1RequestAuthenticator(ClientCredentials credentials, RSAParameters key, AccessToken token) :
+            base(credentials, token)
         {
-            return new PlainTextRequestAuthenticator(credentials, token);
+            this.key = key;
         }
 
-        public static RequestAuthenticator GetHmacSha1Authenticator(ClientCredentials credentials, AccessToken token)
+        protected override Signature GenerateSignature(WebRequest request, Nonce nonce, TimeStamp timestamp)
         {
-            return new HmacSha1RequestAuthenticator(credentials, token);
-        }
+            BaseString baseString = new BaseString(request.RequestUri, request.Method, 
+                nonce, timestamp, credentials, HmacSha1Signature.MethodName);
+            baseString.Token = token;
 
-        public static RequestAuthenticator GetRsaSha1Authenticator(ClientCredentials credentials, RSAParameters key, AccessToken token)
-        {
-            return new RsaSha1RequestAuthenticator(credentials, key, token);
+            return new RsaSha1Signature(baseString.ToString(), key);
         }
     }
 }

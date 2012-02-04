@@ -47,6 +47,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Authenticator\RsaSha1RequestAuthenticator.cs" />
+    <Compile Include="Internal\RsaSha1Signature.cs" />
     <Compile Include="Internal\QueryStringParser.cs" />
     <Compile Include="RequestAuthenticator.cs" />
     <Compile Include="RequestAuthenticatorFactory.cs" />

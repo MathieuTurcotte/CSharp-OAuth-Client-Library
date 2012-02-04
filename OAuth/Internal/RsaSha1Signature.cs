@@ -23,24 +23,23 @@
 using System;
 using System.Security.Cryptography;
 using System.Text;
+using System.IO;
 
 namespace OAuth.Internal
 {
-    class HmacSha1Signature : Signature
+    class RsaSha1Signature : Signature
     {
-        private const string METHOD_NAME = "HMAC-SHA1";
+        private const string METHOD_NAME = "RSA-SHA1";
 
         private UrlEncoder encoder = new UrlEncoder();
 
         private string baseString;
-        private ClientCredentials credentials;
-        private Token token;
+        private RSAParameters key;
 
-        public HmacSha1Signature(string baseString, ClientCredentials credentials, Token token = null)
+        public RsaSha1Signature(string baseString, RSAParameters key)
         {
             this.baseString = baseString;
-            this.credentials = credentials;
-            this.token = token;
+            this.key = key;
         }
 
         public string Method
@@ -63,36 +62,23 @@ namespace OAuth.Internal
         {
             get
             {
-                byte[] key = ConstructHmacSha1Key();
-                string signature = HashBaseString(key);
-                return encoder.Encode(signature);
+                byte[] hash = HashBaseString();
+                byte[] encrypted = EncryptHash(hash);
+                return Convert.ToBase64String(encrypted);
             }
         }
 
-        private string HashBaseString(byte[] key)
+        private byte[] EncryptHash(byte[] hash)
         {
-            HMACSHA1 hasher = new HMACSHA1(key);
-
-            byte[] data = Encoding.ASCII.GetBytes(baseString);
-            byte[] hash = hasher.ComputeHash(data);
-
-            return Convert.ToBase64String(hash);
+            RSACryptoServiceProvider rsa = new RSACryptoServiceProvider();
+            rsa.ImportParameters(key);
+            return rsa.Encrypt(hash, true);
         }
 
-        private byte[] ConstructHmacSha1Key()
+        private byte[] HashBaseString()
         {
-            // As per RFC5849, the HMAC-SHA1 key is set to the concatenated values of:
-            // 1.  The client shared-secret, after being encoded (Section 3.6).
-            // 2.  An "&" character (ASCII code 38), which MUST be included even when 
-            //     either secret is empty.
-            // 3.  The token shared-secret, after being encoded (Section 3.6).
-
-            string clientSecret = encoder.Encode(credentials.Secret);
-            string tokenSecret = encoder.Encode(token == null ? "" : token.Secret);
-
-            string key = string.Format("{0}&{1}", clientSecret, tokenSecret);
-
-            return Encoding.ASCII.GetBytes(key);
+            SHA1 hasher = SHA1.Create();
+            return hasher.ComputeHash(Encoding.ASCII.GetBytes(baseString));
         }
     }
 }
