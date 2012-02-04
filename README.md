@@ -30,7 +30,7 @@ Behind the scene, the authenticator will add an Authorization header to your req
 
 `RequestAuthenticators` implementing the `HMAC-SHA1`, `RSA-SHA1` and `PLAINTEXT` 
 signature methods are provided. `RequestAuthenticators` instances are created
-through the RequestAuthenticatorFactory which expose three factory methods.
+through the `RequestAuthenticatorFactory` which expose three factory methods.
 
     public static RequestAuthenticator GetPlainTextAuthenticator(ClientCredentials credentials, AccessToken token);
     public static RequestAuthenticator GetHmacSha1Authenticator(ClientCredentials credentials, AccessToken token);
