@@ -26,6 +26,18 @@ informations, one would do:
 
 Behind the scene, the authenticator will add an Authorization header to your request.
 
+### RequestAuthenticators
+
+`RequestAuthenticators` implementing the `HMAC-SHA1`, `RSA-SHA1` and `PLAINTEXT` 
+signature methods are provided. `RequestAuthenticators` instances are created
+through the RequestAuthenticatorFactory which expose three factory methods.
+
+    public static RequestAuthenticator GetPlainTextAuthenticator(ClientCredentials credentials, AccessToken token);
+    public static RequestAuthenticator GetHmacSha1Authenticator(ClientCredentials credentials, AccessToken token);
+    public static RequestAuthenticator GetRsaSha1Authenticator(ClientCredentials credentials, AccessToken token, RSAParameters key);
+
+Authenticators are thread-safe.
+
 Limitations
 -----------
 
@@ -39,7 +51,7 @@ Tests
   Integration tests perform requests to differents OAuth provider, ensuring 
   a minimal level of interoperability.
 
-[NUnit](http://www.nunit.org/) is required to run the both test suite.
+[NUnit](http://www.nunit.org/) is required to run test suites.
   
 License
 -------
