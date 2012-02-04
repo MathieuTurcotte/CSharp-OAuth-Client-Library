@@ -161,7 +161,7 @@ namespace OAuth.IntegrationTests
                 0x42, 0x08, 0x52, 0xd0
             };
 
-            RequestAuthenticator authenticator = RequestAuthenticatorFactory.GetRsaSha1Authenticator(credentials, parameters, accessToken);
+            RequestAuthenticator authenticator = RequestAuthenticatorFactory.GetRsaSha1Authenticator(credentials, accessToken, parameters);
 
             WebRequest req = WebRequest.Create("http://term.ie/oauth/example/echo_api.php?method=foo&bar=baz");
 

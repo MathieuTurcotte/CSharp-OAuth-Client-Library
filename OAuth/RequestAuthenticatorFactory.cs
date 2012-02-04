@@ -37,7 +37,7 @@ namespace OAuth
             return new HmacSha1RequestAuthenticator(credentials, token);
         }
 
-        public static RequestAuthenticator GetRsaSha1Authenticator(ClientCredentials credentials, RSAParameters key, AccessToken token)
+        public static RequestAuthenticator GetRsaSha1Authenticator(ClientCredentials credentials, AccessToken token, RSAParameters key)
         {
             return new RsaSha1RequestAuthenticator(credentials, key, token);
         }
