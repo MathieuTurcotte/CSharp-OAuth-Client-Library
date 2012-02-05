@@ -28,7 +28,7 @@ namespace OAuth.Authenticator
 {
     internal class RsaSha1RequestAuthenticator : OAuthRequestAuthenticator
     {
-        RSAParameters key;
+        private RSAParameters key;
 
         public RsaSha1RequestAuthenticator(ClientCredentials credentials, AccessToken token, RSAParameters key) :
             base(credentials, token)
