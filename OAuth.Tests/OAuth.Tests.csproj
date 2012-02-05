@@ -58,6 +58,7 @@
     <Compile Include="Authenticator\PlainTextRequestAuthenticatorTest.cs" />
     <Compile Include="AuthorizationUriTest.cs" />
     <Compile Include="Base\AuthorizationHeaderTest.cs" />
+    <Compile Include="Base\RsaSha1SignatureTest.cs" />
     <Compile Include="Helpers\FisherYates.cs" />
     <Compile Include="Base\BaseStringTest.cs" />
     <Compile Include="Helpers\TestWebRequest.cs" />

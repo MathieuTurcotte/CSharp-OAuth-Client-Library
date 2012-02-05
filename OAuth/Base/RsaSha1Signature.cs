@@ -65,6 +65,12 @@ namespace OAuth.Base
             }
         }
 
+        private byte[] HashBaseString()
+        {
+            SHA1 hasher = SHA1.Create();
+            return hasher.ComputeHash(Encoding.ASCII.GetBytes(baseString));
+        }
+
         private byte[] EncryptHash(byte[] hash)
         {
             using (RSACryptoServiceProvider rsa = new RSACryptoServiceProvider())
@@ -72,12 +78,6 @@ namespace OAuth.Base
                 rsa.ImportParameters(key);
                 return rsa.Encrypt(hash, true);
             }
-        }
-
-        private byte[] HashBaseString()
-        {
-            SHA1 hasher = SHA1.Create();
-            return hasher.ComputeHash(Encoding.ASCII.GetBytes(baseString));
         }
     }
 }
