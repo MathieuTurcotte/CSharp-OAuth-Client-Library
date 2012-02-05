@@ -53,6 +53,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Authenticator\RequestAuthenticatorTest.cs" />
+    <Compile Include="Authenticator\RsaSha1RequestAuthenticatorTest.cs" />
+    <Compile Include="Authenticator\HmacSha1RequestAuthenticatorTest.cs" />
+    <Compile Include="Authenticator\PlainTextRequestAuthenticatorTest.cs" />
     <Compile Include="AuthorizationUriTest.cs" />
     <Compile Include="Base\AuthorizationHeaderTest.cs" />
     <Compile Include="Helpers\FisherYates.cs" />

@@ -67,9 +67,11 @@ namespace OAuth.Base
 
         private byte[] EncryptHash(byte[] hash)
         {
-            RSACryptoServiceProvider rsa = new RSACryptoServiceProvider();
-            rsa.ImportParameters(key);
-            return rsa.Encrypt(hash, true);
+            using (RSACryptoServiceProvider rsa = new RSACryptoServiceProvider())
+            {
+                rsa.ImportParameters(key);
+                return rsa.Encrypt(hash, true);
+            }
         }
 
         private byte[] HashBaseString()

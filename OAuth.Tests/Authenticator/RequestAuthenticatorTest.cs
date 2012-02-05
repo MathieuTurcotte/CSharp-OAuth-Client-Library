@@ -26,50 +26,28 @@ using OAuth.Base;
 
 namespace OAuth.Authenticator
 {
-    [TestFixture]
     class RequestAuthenticatorTest
     {
-        private const string CLIENT_IDENTIFIER = "kgpr346op32etwe";
-        private const string CLIENT_SHARED_SECRET = "3nis2ci4qp4zksz";
-
-        private const string ACCESS_TOKEN = "kb0funrnoephp7v";
-        private const string ACCESS_TOKEN_SECRET = "4i5cdsnulour8f5";
-
-        private ClientCredentials credentials = new ClientCredentials(CLIENT_IDENTIFIER, CLIENT_SHARED_SECRET);
-        private AccessToken accessToken = new AccessToken(ACCESS_TOKEN, ACCESS_TOKEN_SECRET);
-
-        private WebRequest request;
+        protected ClientCredentials credentials = new ClientCredentials("key", "secret");
+        protected AccessToken accessToken = new AccessToken("token", "secret");
+        protected WebRequest request;
 
         [SetUp]
         public void CreateWebRequest()
         {
-            request = WebRequest.Create("http://foo.com/");
+            request = WebRequest.Create("http://example.com/");
         }
 
-        [Test]
-        public void HmacSha1RequestAuthenticatorShouldAddAnAuthorizationHeader()
+        protected void AssertThatAuthorizationHeaderIsOAuth()
         {
-            OAuthRequestAuthenticator authenticator = new HmacSha1RequestAuthenticator(credentials, accessToken);
-
-            authenticator.SignRequest(request);
-
             string header = request.Headers.Get("Authorization");
-
             Assert.That(header, Is.StringStarting("OAuth"));
-            Assert.That(header, Contains.Substring("HMAC-SHA1"));
         }
 
-        [Test]
-        public void PlainTextRequestAuthenticatorShouldAddAnAuthorizationHeader()
+        protected void AssertThatAuthorizationHeaderContains(string substring)
         {
-            OAuthRequestAuthenticator authenticator = new PlainTextRequestAuthenticator(credentials, accessToken);
-
-            authenticator.SignRequest(request);
-
             string header = request.Headers.Get("Authorization");
-
-            Assert.That(header, Is.StringStarting("OAuth"));
-            Assert.That(header, Contains.Substring("PLAINTEXT"));
+            Assert.That(header, Contains.Substring(substring));
         }
     }
 }

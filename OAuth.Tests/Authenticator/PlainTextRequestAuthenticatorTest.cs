@@ -21,24 +21,23 @@
 #endregion
 
 using System.Net;
+using NUnit.Framework;
 using OAuth.Base;
 
 namespace OAuth.Authenticator
 {
-    internal class HmacSha1RequestAuthenticator : OAuthRequestAuthenticator
+    [TestFixture]
+    class PlainTextRequestAuthenticatorTest : RequestAuthenticatorTest
     {
-        public HmacSha1RequestAuthenticator(ClientCredentials credentials, AccessToken token) :
-            base(credentials, token)
+        [Test]
+        public void RequestAuthenticatorShouldAddAPlainTextAuthorizationHeader()
         {
-        }
+            RequestAuthenticator authenticator = new PlainTextRequestAuthenticator(credentials, accessToken);
 
-        protected override Signature GenerateSignature(WebRequest request, Nonce nonce, TimeStamp timestamp)
-        {
-            BaseString baseString = new BaseString(request.RequestUri, request.Method,
-                nonce, timestamp, credentials, HmacSha1Signature.MethodName);
-            baseString.Token = token;
+            authenticator.SignRequest(request);
 
-            return new HmacSha1Signature(baseString.ToString(), credentials, token);
+            AssertThatAuthorizationHeaderIsOAuth();
+            AssertThatAuthorizationHeaderContains("PLAINTEXT");
         }
     }
 }

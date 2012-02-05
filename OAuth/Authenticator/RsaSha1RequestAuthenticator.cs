@@ -30,7 +30,7 @@ namespace OAuth.Authenticator
     {
         RSAParameters key;
 
-        public RsaSha1RequestAuthenticator(ClientCredentials credentials, RSAParameters key, AccessToken token) :
+        public RsaSha1RequestAuthenticator(ClientCredentials credentials, AccessToken token, RSAParameters key) :
             base(credentials, token)
         {
             this.key = key;

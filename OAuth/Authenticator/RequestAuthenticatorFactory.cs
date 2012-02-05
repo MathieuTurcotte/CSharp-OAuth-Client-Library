@@ -39,7 +39,7 @@ namespace OAuth.Authenticator
 
         public static RequestAuthenticator GetRsaSha1Authenticator(ClientCredentials credentials, AccessToken token, RSAParameters key)
         {
-            return new RsaSha1RequestAuthenticator(credentials, key, token);
+            return new RsaSha1RequestAuthenticator(credentials, token, key);
         }
     }
 }

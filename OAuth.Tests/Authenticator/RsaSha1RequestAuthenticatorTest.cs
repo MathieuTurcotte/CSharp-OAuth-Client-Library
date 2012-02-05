@@ -21,24 +21,35 @@
 #endregion
 
 using System.Net;
+using System.Security.Cryptography;
+using NUnit.Framework;
 using OAuth.Base;
 
 namespace OAuth.Authenticator
 {
-    internal class HmacSha1RequestAuthenticator : OAuthRequestAuthenticator
+    [TestFixture]
+    class RsaSha1RequestAuthenticatorTest : RequestAuthenticatorTest
     {
-        public HmacSha1RequestAuthenticator(ClientCredentials credentials, AccessToken token) :
-            base(credentials, token)
+        private RSAParameters key;
+
+        [SetUp]
+        public void GetRsaKey()
         {
+            using (RSACryptoServiceProvider rsa = new RSACryptoServiceProvider())
+            {
+                key = rsa.ExportParameters(true);
+            }
         }
 
-        protected override Signature GenerateSignature(WebRequest request, Nonce nonce, TimeStamp timestamp)
+        [Test]
+        public void RequestAuthenticatorShouldAddAnRsaSha1AuthorizationHeader()
         {
-            BaseString baseString = new BaseString(request.RequestUri, request.Method,
-                nonce, timestamp, credentials, HmacSha1Signature.MethodName);
-            baseString.Token = token;
+            RequestAuthenticator authenticator = new RsaSha1RequestAuthenticator(credentials, accessToken, key);
 
-            return new HmacSha1Signature(baseString.ToString(), credentials, token);
+            authenticator.SignRequest(request);
+
+            AssertThatAuthorizationHeaderIsOAuth();
+            AssertThatAuthorizationHeaderContains("RSA-SHA1");
         }
     }
 }
