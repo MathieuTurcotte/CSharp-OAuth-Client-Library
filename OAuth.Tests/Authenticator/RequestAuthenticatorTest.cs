@@ -23,19 +23,22 @@
 using System.Net;
 using NUnit.Framework;
 using OAuth.Base;
+using OAuth.Tests.Helpers;
 
 namespace OAuth.Authenticator
 {
     class RequestAuthenticatorTest
     {
-        protected ClientCredentials credentials = new ClientCredentials("key", "secret");
-        protected AccessToken accessToken = new AccessToken("token", "secret");
+        protected ClientCredentials credentials;
+        protected AccessToken accessToken;
         protected WebRequest request;
 
         [SetUp]
         public void CreateWebRequest()
         {
-            request = WebRequest.Create("http://example.com/");
+            credentials = new ClientCredentials("key", "secret");
+            accessToken = new AccessToken("token", "secret");
+            request = new TestWebRequest("http://www.test.com/");
         }
 
         protected void AssertThatAuthorizationHeaderIsOAuth()

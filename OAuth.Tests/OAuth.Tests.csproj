@@ -60,6 +60,7 @@
     <Compile Include="Base\AuthorizationHeaderTest.cs" />
     <Compile Include="Helpers\FisherYates.cs" />
     <Compile Include="Base\BaseStringTest.cs" />
+    <Compile Include="Helpers\TestWebRequest.cs" />
     <Compile Include="Utils\QueryStringParserTest.cs" />
     <Compile Include="Base\HmacSha1SignatureTest.cs" />
     <Compile Include="Base\NonceTest.cs" />
