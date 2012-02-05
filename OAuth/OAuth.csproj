@@ -67,6 +67,7 @@
     <Compile Include="Base\BaseStringParameterComparer.cs" />
     <Compile Include="Base\TimeStamp.cs" />
     <Compile Include="Base\Token.cs" />
+    <Compile Include="Utils\StringBuilderExtensions.cs" />
     <Compile Include="Utils\UrlEncoder.cs" />
     <Compile Include="Base\NegotiationToken.cs" />
     <Compile Include="AccessTokenRequest.cs" />

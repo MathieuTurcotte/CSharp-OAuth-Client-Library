@@ -22,6 +22,7 @@
 
 using System;
 using System.Text;
+using OAuth.Utils;
 
 namespace OAuth.Base
 {
@@ -53,36 +54,31 @@ namespace OAuth.Base
             StringBuilder builder = new StringBuilder();
 
             builder.Append("OAuth ");
-            builder.Append(GetHeaderField(AuthorizationHeaderFields.REALM, "")).Append(',');
-            builder.Append(GetHeaderField(AuthorizationHeaderFields.VERSION, version)).Append(',');
-            builder.Append(GetHeaderField(AuthorizationHeaderFields.CONSUMER_KEY, credentials.Identifier)).Append(',');
-            builder.Append(GetHeaderField(AuthorizationHeaderFields.SIGNATURE_METHOD, signature.Method)).Append(',');
+            builder.HeaderField(AuthorizationHeaderFields.REALM, "").Comma();
+            builder.HeaderField(AuthorizationHeaderFields.VERSION, version).Comma();
+            builder.HeaderField(AuthorizationHeaderFields.CONSUMER_KEY, credentials.Identifier).Comma();
+            builder.HeaderField(AuthorizationHeaderFields.SIGNATURE_METHOD, signature.Method).Comma();
 
             if (token != null)
             {
-                builder.Append(GetHeaderField(AuthorizationHeaderFields.TOKEN, token.Value)).Append(',');
+                builder.HeaderField(AuthorizationHeaderFields.TOKEN, token.Value).Comma();
             }
 
             if (!String.IsNullOrEmpty(verifier))
             {
-                builder.Append(GetHeaderField(AuthorizationHeaderFields.VERIFIER, verifier)).Append(',');
+                builder.HeaderField(AuthorizationHeaderFields.VERIFIER, verifier).Comma();
             }
 
             if (!String.IsNullOrEmpty(callback))
             {
-                builder.Append(GetHeaderField(AuthorizationHeaderFields.CALLBACK, callback)).Append(',');
+                builder.HeaderField(AuthorizationHeaderFields.CALLBACK, callback).Comma();
             }
 
-            builder.Append(GetHeaderField(AuthorizationHeaderFields.NONCE, nonce.ToString())).Append(',');
-            builder.Append(GetHeaderField(AuthorizationHeaderFields.TIMESTAMP, timestamp.ToString())).Append(',');
-            builder.Append(GetHeaderField(AuthorizationHeaderFields.SIGNATURE, signature.Value));
+            builder.HeaderField(AuthorizationHeaderFields.NONCE, nonce.ToString()).Comma();
+            builder.HeaderField(AuthorizationHeaderFields.TIMESTAMP, timestamp.ToString()).Comma();
+            builder.HeaderField(AuthorizationHeaderFields.SIGNATURE, signature.Value);
 
             return builder.ToString();
-        }
-
-        private string GetHeaderField(string name, string value)
-        {
-            return name + "=\"" + value + "\"";
         }
     }
 }
