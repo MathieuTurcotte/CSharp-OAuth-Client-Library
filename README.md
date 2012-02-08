@@ -6,6 +6,15 @@ A C# 3.5 library implementing the client side part OAuth 1.0 protocol
 
 Runs on Microsoft .NET Framework 3.5.
 
+NuGet Install
+-------------
+
+[NuGet](https://nuget.org/) users can install this 
+[library](https://nuget.org/packages/OAuthClient) by running the following 
+command in their Package Manager Console:
+
+    PM> Install-Package OAuthClient
+
 How to use
 ----------
 
