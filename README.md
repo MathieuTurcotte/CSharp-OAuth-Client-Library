@@ -41,9 +41,9 @@ Behind the scene, the authenticator will add an Authorization header to your req
 signature methods are provided. `RequestAuthenticator` instances are created
 through the `RequestAuthenticatorFactory` which expose three factory methods.
 
-    public static RequestAuthenticator GetPlainTextAuthenticator(ClientCredentials credentials, AccessToken token);
-    public static RequestAuthenticator GetHmacSha1Authenticator(ClientCredentials credentials, AccessToken token);
-    public static RequestAuthenticator GetRsaSha1Authenticator(ClientCredentials credentials, AccessToken token, RSAParameters key);
+    RequestAuthenticator GetPlainTextAuthenticator(ClientCredentials credentials, AccessToken token);
+    RequestAuthenticator GetHmacSha1Authenticator(ClientCredentials credentials, AccessToken token);
+    RequestAuthenticator GetRsaSha1Authenticator(ClientCredentials credentials, AccessToken token, RSAParameters key);
 
 Authenticators are thread-safe.
 
