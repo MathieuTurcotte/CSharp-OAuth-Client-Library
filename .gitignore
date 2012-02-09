@@ -50,3 +50,9 @@ _ReSharper*/
 #NuGet
 packages/
 *.nupkg
+
+#NCrunch
+*.ncrunchproject
+*.ncrunchsolution
+*.ncrunchsolution.user
+*.ncrunchsolution.cache
