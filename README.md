@@ -35,7 +35,7 @@ informations, one would do:
 
 Behind the scene, the authenticator will add an Authorization header to your request.
 
-### RequestAuthenticators
+### Request Authenticators
 
 `RequestAuthenticator` implementing the `HMAC-SHA1`, `RSA-SHA1` and `PLAINTEXT`
 signature methods are provided. `RequestAuthenticator` instances are created
@@ -45,6 +45,15 @@ through the `RequestAuthenticatorFactory` which expose three factory methods.
     RequestAuthenticator GetHmacSha1Authenticator(ClientCredentials credentials, AccessToken token);
     RequestAuthenticator GetRsaSha1Authenticator(ClientCredentials credentials, AccessToken token, RSAParameters key);
 
+`RequestAuthenticator` is simply an interface providing a method for signing 
+[`WebRequest`](http://msdn.microsoft.com/en-us/library/system.net.webrequest.aspx) 
+instances.
+
+    public interface RequestAuthenticator
+    {
+        void SignRequest(WebRequest request);
+    }
+   
 Authenticators are thread-safe.
 
 Limitations
