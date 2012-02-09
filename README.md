@@ -44,8 +44,8 @@ Behind the scene, the authenticator will add an Authorization header to your req
         void SignRequest(WebRequest request);
     }
 
-Authenticators implementing the `HMAC-SHA1`, `RSA-SHA1` and `PLAINTEXT`
-signature methods are provided. Instances are created through a factory,
+Authenticators implementing `HMAC-SHA1`, `RSA-SHA1` and `PLAINTEXT` signature 
+are provided. Instances are created through a factory,
 `RequestAuthenticatorFactory`, which expose three static factory methods.
 
     RequestAuthenticator GetPlainTextAuthenticator(ClientCredentials credentials, AccessToken token);
