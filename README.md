@@ -1,7 +1,7 @@
 ﻿C# OAuth Client Library
 =======================
 
-A C# 3.5 library implementing the client side part OAuth 1.0 protocol
+A C# library implementing the consumer side of the OAuth 1.0 protocol
 ([rfc5849](http://tools.ietf.org/html/rfc5849)).
 
 Runs on Microsoft .NET Framework 3.5.
@@ -37,24 +37,22 @@ Behind the scene, the authenticator will add an Authorization header to your req
 
 ### Request Authenticators
 
-`RequestAuthenticator` implementing the `HMAC-SHA1`, `RSA-SHA1` and `PLAINTEXT`
-signature methods are provided. `RequestAuthenticator` instances are created
-through the `RequestAuthenticatorFactory` which expose three factory methods.
-
-    RequestAuthenticator GetPlainTextAuthenticator(ClientCredentials credentials, AccessToken token);
-    RequestAuthenticator GetHmacSha1Authenticator(ClientCredentials credentials, AccessToken token);
-    RequestAuthenticator GetRsaSha1Authenticator(ClientCredentials credentials, AccessToken token, RSAParameters key);
-
-`RequestAuthenticator` is simply an interface providing a method for signing 
-[`WebRequest`](http://msdn.microsoft.com/en-us/library/system.net.webrequest.aspx) 
-instances.
+`RequestAuthenticator` is an interface specifying a method for signing `WebRequest`.
 
     public interface RequestAuthenticator
     {
         void SignRequest(WebRequest request);
     }
+
+Authenticators implementing the `HMAC-SHA1`, `RSA-SHA1` and `PLAINTEXT`
+signature methods are provided. Instances are created through a factory,
+`RequestAuthenticatorFactory`, which expose three static factory methods.
+
+    RequestAuthenticator GetPlainTextAuthenticator(ClientCredentials credentials, AccessToken token);
+    RequestAuthenticator GetHmacSha1Authenticator(ClientCredentials credentials, AccessToken token);
+    RequestAuthenticator GetRsaSha1Authenticator(ClientCredentials credentials, AccessToken token, RSAParameters key);
    
-Authenticators are thread-safe.
+All request authenticators are thread-safe.
 
 Limitations
 -----------
