@@ -8,8 +8,9 @@
     <owners>Mathieu Turcotte</owners>
     <licenseUrl>http://mturcotte.mit-license.org/</licenseUrl>
     <projectUrl>https://github.com/MathieuTurcotte/CSharp-OAuth-Client-Library</projectUrl>
+    <iconUrl>https://github.com/MathieuTurcotte/CSharp-OAuth-Client-Library/raw/master/icon.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>OAuth 1.0 client library</description>
+    <description>OAuth 1.0 client library.</description>
     <copyright>Copyright 2012</copyright>
     <tags>oauth .net35 .net40</tags>
   </metadata>
