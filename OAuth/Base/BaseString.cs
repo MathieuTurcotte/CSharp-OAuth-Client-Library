@@ -28,8 +28,6 @@ using OAuth.Utils;
 
 namespace OAuth.Base
 {
-    // Don't handle entity-body.
-
     internal class BaseString
     {
         private readonly Uri uri;
@@ -38,7 +36,6 @@ namespace OAuth.Base
         private readonly TimeStamp timestamp;
         private readonly ClientCredentials credentials;
         private readonly string signatureType;
-        private readonly string version = "1.0";
 
         private Token token;
         private string callback;
@@ -125,7 +122,7 @@ namespace OAuth.Base
 
             List<BaseStringParameter> parameters = new List<BaseStringParameter>();
 
-            parameters.Add(new BaseStringParameter(AuthorizationHeaderFields.VERSION, version));
+            parameters.Add(new BaseStringParameter(AuthorizationHeaderFields.VERSION, OAuthVersion.VERSION));
             parameters.Add(new BaseStringParameter(AuthorizationHeaderFields.NONCE, nonce.ToString()));
             parameters.Add(new BaseStringParameter(AuthorizationHeaderFields.TIMESTAMP, timestamp.ToString()));
             parameters.Add(new BaseStringParameter(AuthorizationHeaderFields.CONSUMER_KEY, credentials.Identifier));

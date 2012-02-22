@@ -29,10 +29,10 @@ namespace OAuth.Base
     internal class AuthorizationHeader
     {
         private readonly ClientCredentials credentials;
-        private readonly string version = "1.0";
         private readonly TimeStamp timestamp;
         private readonly Nonce nonce;
         private readonly Signature signature;
+
         private Token token;
         private string callback;
         private string verifier;
@@ -51,34 +51,34 @@ namespace OAuth.Base
 
         public override string ToString()
         {
-            StringBuilder builder = new StringBuilder();
+            AuthorizationHeaderBuilder header = new AuthorizationHeaderBuilder();
 
-            builder.Append("OAuth ");
-            builder.HeaderField(AuthorizationHeaderFields.REALM, "").Comma();
-            builder.HeaderField(AuthorizationHeaderFields.VERSION, version).Comma();
-            builder.HeaderField(AuthorizationHeaderFields.CONSUMER_KEY, credentials.Identifier).Comma();
-            builder.HeaderField(AuthorizationHeaderFields.SIGNATURE_METHOD, signature.Method).Comma();
+            header.Append("OAuth ");
+            header.AppendField(AuthorizationHeaderFields.REALM).AppendComma();
+            header.AppendField(AuthorizationHeaderFields.VERSION, OAuthVersion.VERSION).AppendComma();
+            header.AppendField(AuthorizationHeaderFields.CONSUMER_KEY, credentials.Identifier).AppendComma();
+            header.AppendField(AuthorizationHeaderFields.SIGNATURE_METHOD, signature.Method).AppendComma();
 
             if (token != null)
             {
-                builder.HeaderField(AuthorizationHeaderFields.TOKEN, token.Value).Comma();
+                header.AppendField(AuthorizationHeaderFields.TOKEN, token.Value).AppendComma();
             }
 
             if (!String.IsNullOrEmpty(verifier))
             {
-                builder.HeaderField(AuthorizationHeaderFields.VERIFIER, verifier).Comma();
+                header.AppendField(AuthorizationHeaderFields.VERIFIER, verifier).AppendComma();
             }
 
             if (!String.IsNullOrEmpty(callback))
             {
-                builder.HeaderField(AuthorizationHeaderFields.CALLBACK, callback).Comma();
+                header.AppendField(AuthorizationHeaderFields.CALLBACK, callback).AppendComma();
             }
 
-            builder.HeaderField(AuthorizationHeaderFields.NONCE, nonce.ToString()).Comma();
-            builder.HeaderField(AuthorizationHeaderFields.TIMESTAMP, timestamp.ToString()).Comma();
-            builder.HeaderField(AuthorizationHeaderFields.SIGNATURE, signature.Value);
+            header.AppendField(AuthorizationHeaderFields.NONCE, nonce.ToString()).AppendComma();
+            header.AppendField(AuthorizationHeaderFields.TIMESTAMP, timestamp.ToString()).AppendComma();
+            header.AppendField(AuthorizationHeaderFields.SIGNATURE, signature.Value);
 
-            return builder.ToString();
+            return header.ToString();
         }
     }
 }

@@ -48,6 +48,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Authenticator\RsaSha1RequestAuthenticator.cs" />
+    <Compile Include="Base\AuthorizationHeaderBuilder.cs" />
+    <Compile Include="Base\OAuthVersion.cs" />
     <Compile Include="Base\RsaSha1Signature.cs" />
     <Compile Include="Utils\QueryStringParser.cs" />
     <Compile Include="Authenticator\RequestAuthenticator.cs" />
@@ -67,7 +69,6 @@
     <Compile Include="Base\BaseStringParameterComparer.cs" />
     <Compile Include="Base\TimeStamp.cs" />
     <Compile Include="Base\Token.cs" />
-    <Compile Include="Utils\StringBuilderExtensions.cs" />
     <Compile Include="Utils\UrlEncoder.cs" />
     <Compile Include="Base\NegotiationToken.cs" />
     <Compile Include="AccessTokenRequest.cs" />

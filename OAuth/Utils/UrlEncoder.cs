@@ -29,7 +29,7 @@ namespace OAuth.Utils
     {
         private const string UNRESERVED_CHARS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_.~";
 
-        public virtual string Encode(string content)
+        public string Encode(string content)
         {
             StringBuilder builder = new StringBuilder();
 
