@@ -24,8 +24,15 @@ using System.Net;
 
 namespace OAuth.Authenticator
 {
+    /// <summary>
+    /// Provides an interface to sign <see cref="WebRequest">WebRequest</see>.
+    /// </summary>
     public interface RequestAuthenticator
     {
+        /// <summary>
+        /// Adds the OAuth authorization header to a <see cref="WebRequest">WebRequest</see>.
+        /// </summary>
+        /// <param name="request"><see cref="WebRequest">WebRequest</see> to sign.</param>
         void SignRequest(WebRequest request);
     }
 }

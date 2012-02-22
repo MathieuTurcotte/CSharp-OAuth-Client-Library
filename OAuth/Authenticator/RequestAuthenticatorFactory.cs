@@ -25,18 +25,40 @@ using OAuth.Base;
 
 namespace OAuth.Authenticator
 {
+    /// <summary>
+    /// OAuth request authenticator factory.
+    /// </summary>
     public class RequestAuthenticatorFactory
     {
+        /// <summary>
+        /// Creates a PLAINTEXT request authenticator.
+        /// </summary>
+        /// <param name="credentials">Client credentials</param>
+        /// <param name="token">Access token</param>
+        /// <returns>PLAINTEXT request authenticator</returns>
         public static RequestAuthenticator GetPlainTextAuthenticator(ClientCredentials credentials, AccessToken token)
         {
             return new PlainTextRequestAuthenticator(credentials, token);
         }
 
+        /// <summary>
+        /// Creates an HAMC-SHA1 request authenticator.
+        /// </summary>
+        /// <param name="credentials">Client credentials</param>
+        /// <param name="token">Access token</param>
+        /// <returns>HAMC-SHA1 request authenticator</returns>
         public static RequestAuthenticator GetHmacSha1Authenticator(ClientCredentials credentials, AccessToken token)
         {
             return new HmacSha1RequestAuthenticator(credentials, token);
         }
 
+        /// <summary>
+        /// Creates a RSA-SHA1 request authenticator.
+        /// </summary>
+        /// <param name="credentials">Client credentials</param>
+        /// <param name="token">Access token</param>
+        /// <param name="key">Private key</param>
+        /// <returns>RSA-SHA1 request authenticator</returns>
         public static RequestAuthenticator GetRsaSha1Authenticator(ClientCredentials credentials, AccessToken token, RSAParameters key)
         {
             return new RsaSha1RequestAuthenticator(credentials, token, key);
