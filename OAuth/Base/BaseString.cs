@@ -90,7 +90,7 @@ namespace OAuth.Base
 
             string url = String.Format("{0}://{1}", uri.Scheme, uri.Host);
 
-            if (!isRequestOnDefaultPort())
+            if (!IsRequestOnDefaultPort())
             {
                 url += ":" + uri.Port;
             }
@@ -98,7 +98,7 @@ namespace OAuth.Base
             return encoder.Encode(url + uri.AbsolutePath);
         }
 
-        private bool isRequestOnDefaultPort()
+        private bool IsRequestOnDefaultPort()
         {
             return (uri.Scheme == "http" && uri.Port == 80) ||
                    (uri.Scheme == "https" && uri.Port == 443);
