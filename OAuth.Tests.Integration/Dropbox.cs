@@ -65,7 +65,7 @@ namespace OAuth.IntegrationTests
         [Test]
         public void RetrieveAcccountMetadataUsingPlainTextSignature()
         {
-            RetrieveAccountMetadataUsing(RequestAuthenticatorFactory.GetHmacSha1Authenticator(credentials, accessToken));
+            RetrieveAccountMetadataUsing(RequestAuthenticatorFactory.GetPlainTextAuthenticator(credentials, accessToken));
         }
 
         private void RetrieveAccountMetadataUsing(RequestAuthenticator authenticator)
