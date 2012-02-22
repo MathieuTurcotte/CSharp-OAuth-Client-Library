@@ -21,8 +21,6 @@
 #endregion
 
 using System;
-using System.Text;
-using OAuth.Utils;
 
 namespace OAuth.Base
 {
