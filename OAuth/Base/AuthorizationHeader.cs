@@ -52,28 +52,28 @@ namespace OAuth.Base
             AuthorizationHeaderBuilder header = new AuthorizationHeaderBuilder();
 
             header.Append("OAuth ");
-            header.AppendField(AuthorizationHeaderFields.REALM).AppendComma();
-            header.AppendField(AuthorizationHeaderFields.VERSION, OAuthVersion.VERSION).AppendComma();
-            header.AppendField(AuthorizationHeaderFields.CONSUMER_KEY, credentials.Identifier).AppendComma();
-            header.AppendField(AuthorizationHeaderFields.SIGNATURE_METHOD, signature.Method).AppendComma();
+            header.AppendField(AuthorizationHeaderFields.REALM);
+            header.AppendField(AuthorizationHeaderFields.VERSION, OAuthVersion.VERSION);
+            header.AppendField(AuthorizationHeaderFields.CONSUMER_KEY, credentials.Identifier);
+            header.AppendField(AuthorizationHeaderFields.SIGNATURE_METHOD, signature.Method);
 
             if (token != null)
             {
-                header.AppendField(AuthorizationHeaderFields.TOKEN, token.Value).AppendComma();
+                header.AppendField(AuthorizationHeaderFields.TOKEN, token.Value);
             }
 
             if (!String.IsNullOrEmpty(verifier))
             {
-                header.AppendField(AuthorizationHeaderFields.VERIFIER, verifier).AppendComma();
+                header.AppendField(AuthorizationHeaderFields.VERIFIER, verifier);
             }
 
             if (!String.IsNullOrEmpty(callback))
             {
-                header.AppendField(AuthorizationHeaderFields.CALLBACK, callback).AppendComma();
+                header.AppendField(AuthorizationHeaderFields.CALLBACK, callback);
             }
 
-            header.AppendField(AuthorizationHeaderFields.NONCE, nonce.ToString()).AppendComma();
-            header.AppendField(AuthorizationHeaderFields.TIMESTAMP, timestamp.ToString()).AppendComma();
+            header.AppendField(AuthorizationHeaderFields.NONCE, nonce.ToString());
+            header.AppendField(AuthorizationHeaderFields.TIMESTAMP, timestamp.ToString());
             header.AppendField(AuthorizationHeaderFields.SIGNATURE, signature.Value);
 
             return header.ToString();

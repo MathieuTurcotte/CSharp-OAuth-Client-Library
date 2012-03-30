@@ -26,7 +26,8 @@ namespace OAuth.Base
 {
     internal class AuthorizationHeaderBuilder
     {
-        StringBuilder header = new StringBuilder();
+        private StringBuilder header = new StringBuilder();
+        private bool comma = false;
 
         public AuthorizationHeaderBuilder Append(string value)
         {
@@ -36,19 +37,15 @@ namespace OAuth.Base
 
         public AuthorizationHeaderBuilder AppendField(string name, string value)
         {
+            header.Append(comma ? "," : "");
             header.Append(name).Append("=\"").Append(value).Append("\"");
+            comma = true;
             return this;
         }
 
         public AuthorizationHeaderBuilder AppendField(string name)
         {
             return AppendField(name, "");
-        }
-
-        public AuthorizationHeaderBuilder AppendComma()
-        {
-            header.Append(',');
-            return this;
         }
 
         public override string ToString()

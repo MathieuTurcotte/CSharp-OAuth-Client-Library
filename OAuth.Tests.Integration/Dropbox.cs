@@ -34,8 +34,8 @@ namespace OAuth.IntegrationTests
         private const string CLIENT_IDENTIFIER = "w0n8mks7y64f82m";
         private const string CLIENT_SHARED_SECRET = "7t53l3mh0gq122l";
 
-        private const string ACCESS_TOKEN = "wzco3y52bt0ibe7";
-        private const string ACCESS_TOKEN_SECRET = "g4jh90ax2awzjfy";
+        private const string ACCESS_TOKEN = "2wnd2f7kyn1wnau";
+        private const string ACCESS_TOKEN_SECRET = "1aucldttfjm2rj1";
 
         private const string REQUEST_TOKEN_END_POINT = "https://api.dropbox.com/1/oauth/request_token";
         private const string AUTHORIZE_END_POINT = "https://www.dropbox.com/1/oauth/authorize";
