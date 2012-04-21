@@ -31,11 +31,11 @@ namespace OAuth.IntegrationTests
     [TestFixture]
     public class Dropbox
     {
-        private const string CLIENT_IDENTIFIER = "w0n8mks7y64f82m";
-        private const string CLIENT_SHARED_SECRET = "7t53l3mh0gq122l";
+        private const string CLIENT_IDENTIFIER = "53i85ykttkrep13";
+        private const string CLIENT_SHARED_SECRET = "jns9kry4g4jmefu";
 
-        private const string ACCESS_TOKEN = "2wnd2f7kyn1wnau";
-        private const string ACCESS_TOKEN_SECRET = "1aucldttfjm2rj1";
+        private const string ACCESS_TOKEN = "uu6h4g1xg3raqnb";
+        private const string ACCESS_TOKEN_SECRET = "oeet7ou6mavjyhs";
 
         private const string REQUEST_TOKEN_END_POINT = "https://api.dropbox.com/1/oauth/request_token";
         private const string AUTHORIZE_END_POINT = "https://www.dropbox.com/1/oauth/authorize";
