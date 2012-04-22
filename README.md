@@ -9,8 +9,8 @@ Runs on Microsoft .NET Framework 3.5.
 NuGet Install
 -------------
 
-[NuGet](https://nuget.org/) users can install this 
-[library](https://nuget.org/packages/OAuthClient) by running the following 
+[NuGet](https://nuget.org/) users can install this
+[library](https://nuget.org/packages/OAuthClient) by running the following
 command in their Package Manager Console:
 
     PM> Install-Package OAuthClient
@@ -44,14 +44,14 @@ Behind the scene, the authenticator will add an Authorization header to your req
         void SignRequest(WebRequest request);
     }
 
-Authenticators implementing `HMAC-SHA1`, `RSA-SHA1` and `PLAINTEXT` signature 
+Authenticators implementing `HMAC-SHA1`, `RSA-SHA1` and `PLAINTEXT` signature
 are provided. Instances are created through a factory,
 `RequestAuthenticatorFactory`, which expose three static factory methods.
 
     RequestAuthenticator GetPlainTextAuthenticator(ClientCredentials credentials, AccessToken token);
     RequestAuthenticator GetHmacSha1Authenticator(ClientCredentials credentials, AccessToken token);
     RequestAuthenticator GetRsaSha1Authenticator(ClientCredentials credentials, AccessToken token, RSAParameters key);
-   
+
 All request authenticators are thread-safe.
 
 Limitations
@@ -64,7 +64,7 @@ Tests
 
 * Unit tests are grouped in the `OAuth.Tests` project.
 * Integration tests are grouped in the `OAuth.Tests.Integration` project.
-  Integration tests perform requests to differents OAuth provider, ensuring
+  Integration tests perform requests to several OAuth providers, ensuring
   a minimal level of interoperability.
 
 [NUnit](http://www.nunit.org/) is required to run both test suite.
