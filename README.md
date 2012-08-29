@@ -21,17 +21,21 @@ How to use
 First of all, you have to instantiate a `RequestAuthenticator`, passing in your
 `ClientCredentials` and the `AccessToken` granted by an OAuth provider.
 
-    AccessToken accessToken = new AccessToken(ACCESS_TOKEN, ACCESS_TOKEN_SECRET);
-    ClientCredentials credentials = new ClientCredentials(CLIENT_IDENTIFIER, CLIENT_SHARED_SECRET);
-    RequestAuthenticator authenticator = RequestAuthenticatorFactory.GetHmacSha1Authenticator(credentials, accessToken);
+```csharp
+AccessToken accessToken = new AccessToken(ACCESS_TOKEN, ACCESS_TOKEN_SECRET);
+ClientCredentials credentials = new ClientCredentials(CLIENT_IDENTIFIER, CLIENT_SHARED_SECRET);
+RequestAuthenticator authenticator = RequestAuthenticatorFactory.GetHmacSha1Authenticator(credentials, accessToken);
+```
 
 Now, to consume protected resources, `WebRequest` need to be signed using the
 authenticator that you've just created. For example, to access a Dropbox account
 informations, one would do:
 
-    WebRequest req = WebRequest.Create("https://api.dropbox.com/1/account/info");
-    authenticator.SignRequest(req);
-    string response = ReadResponse(req);
+```csharp
+WebRequest req = WebRequest.Create("https://api.dropbox.com/1/account/info");
+authenticator.SignRequest(req);
+string response = ReadResponse(req);
+```
 
 Behind the scene, the authenticator will add an Authorization header to your request.
 
@@ -39,18 +43,22 @@ Behind the scene, the authenticator will add an Authorization header to your req
 
 `RequestAuthenticator` is an interface specifying a method for signing `WebRequest`.
 
-    public interface RequestAuthenticator
-    {
-        void SignRequest(WebRequest request);
-    }
+```csharp
+public interface RequestAuthenticator
+{
+    void SignRequest(WebRequest request);
+}
+```
 
 Authenticators implementing `HMAC-SHA1`, `RSA-SHA1` and `PLAINTEXT` signature
 are provided. Instances are created through a factory,
 `RequestAuthenticatorFactory`, which expose three static factory methods.
 
-    RequestAuthenticator GetPlainTextAuthenticator(ClientCredentials credentials, AccessToken token);
-    RequestAuthenticator GetHmacSha1Authenticator(ClientCredentials credentials, AccessToken token);
-    RequestAuthenticator GetRsaSha1Authenticator(ClientCredentials credentials, AccessToken token, RSAParameters key);
+```csharp
+RequestAuthenticator GetPlainTextAuthenticator(ClientCredentials credentials, AccessToken token);
+RequestAuthenticator GetHmacSha1Authenticator(ClientCredentials credentials, AccessToken token);
+RequestAuthenticator GetRsaSha1Authenticator(ClientCredentials credentials, AccessToken token, RSAParameters key);
+```
 
 All request authenticators are thread-safe.
 
